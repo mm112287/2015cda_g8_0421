@@ -783,7 +783,29 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
     ctx.font = "10px Verdana";
     ctx.fillText("組員:51號簡正斌所繪製",x_g7-60, y_g7-10);
 
+
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g4,y_g4)
+    ctx.rotate(th4)
+    # put it back
+    ctx.translate(-x_g4,-y_g4)
+    spur.Spur(ctx).Gear(x_g4,y_g4,rp_g4,n_g4, pa, "purple")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:29號許家瑋所繪製",x_g4-60, y_g4-10);
+
     # 將第3齒輪逆時鐘轉 90 度之後, 再往回轉第2齒輪定位帶動轉角, 然後再逆時鐘多轉一齒, 以便與第2齒輪進行囓合
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g5,y_g5)
+    ctx.rotate(th5)
+    # put it back
+    ctx.translate(-x_g5,-y_g5)
+    spur.Spur(ctx).Gear(x_g5,y_g5,rp_g5,n_g5, pa, "yellow")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:49號賴涵餘所繪製",x_g5-60, y_g5-10);
 
     # 第1個 -pi/2 為將原先垂直的第3齒輪定位線逆時鐘旋轉 90 度
     # -pi/n_g3 則是第3齒與第2齒定位線重合後, 必須再逆時鐘多轉一齒的轉角, 以便進行囓合
