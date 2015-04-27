@@ -704,6 +704,18 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
     ctx.restore()
     ctx.font = "10px Verdana";
     ctx.fillText("組員:10號王常浩所繪製",x_g3-60, y_g3-10);
+ # 假如第7齒也要進行囓合, 又該如何進行繪圖?
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g7, y_g7)
+    # rotate to engage
+    ctx.rotate(th7)
+    # put it back
+    ctx.translate(-x_g7, -y_g7)
+    spur.Spur(ctx).Gear(x_g7, y_g7, rp_g7, n_g7, pa, "orange")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:51號簡正斌所繪製",x_g7-60, y_g7-10);
 
     # 將第3齒輪逆時鐘轉 90 度之後, 再往回轉第2齒輪定位帶動轉角, 然後再逆時鐘多轉一齒, 以便與第2齒輪進行囓合
 
