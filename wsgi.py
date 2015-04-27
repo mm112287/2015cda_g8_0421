@@ -112,7 +112,7 @@ class Hello(object):
 
         </select>
         模數:<br />
-        <input type=\"text\" name=\"K\"><br />
+        <input type=\"text\" name=\"m\"><br />
         壓力角(>33時會有錯誤):<br />
         <input type=\"text\" name=\"inp2\"><br />
         <input type=\"submit\" value=\"確定\">
@@ -120,16 +120,14 @@ class Hello(object):
         <a href="gear">3D齒輪模式</a>
     </form>
         
-    <form method=\"post\" action=\"mygeartest2\">
+     <form method=\"post\" action=\"mygeartest2\">
         <fieldset>
         <legend>考試協同七個齒輪齒輪參數表單值:</legend>
         齒數1:<br />
-        <input type=\"text\" name=\"N\"><br />
-
-
-
-        齒數2:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 齒數3:<br />
-        <select name="ng1">
+        <input type=\"text\" name=\"ng1\"><br />
+        齒數2:<br />
+        <input list="ng2" name="ng2">
+        <datalist id="ng2">
         <option value="10">10</option>
         <option value="15">15</option>
         <option value="20">20</option>
@@ -139,8 +137,10 @@ class Hello(object):
         <option value="40">40</option>
         <option value="45">45</option>
         <option value="50">50</option>
-        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <select name="ng2">
+        </datalist><br />
+        齒數3:<br />
+        <input list="ng3" name="ng3">
+        <datalist id="ng3">
         <option value="10">10</option>
         <option value="15">15</option>
         <option value="20">20</option>
@@ -150,9 +150,10 @@ class Hello(object):
         <option value="40">40</option>
         <option value="45">45</option>
         <option value="50">50</option>
-        </select><br />
-        齒數4: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;齒數5:<br />
-        <select name="ng3">
+        </datalist><br />
+        齒數4: <br />
+        <input list="ng4" name="ng4">
+        <datalist id="ng4">
         <option value="10">10</option>
         <option value="15">15</option>
         <option value="20">20</option>
@@ -162,8 +163,10 @@ class Hello(object):
         <option value="40">40</option>
         <option value="45">45</option>
         <option value="50">50</option>
-        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <select name="ng4">
+        </datalist><br />
+        齒數5:<br />
+        <input list="ng5" name="ng5">
+        <datalist id="ng5">
         <option value="10">10</option>
         <option value="15">15</option>
         <option value="20">20</option>
@@ -173,9 +176,10 @@ class Hello(object):
         <option value="40">40</option>
         <option value="45">45</option>
         <option value="50">50</option>
-        </select><br />
-        齒數6:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;齒數7:<br />
-        <select name="ng5">
+        </datalist><br />
+        齒數6:<br />
+        <input list="ng6" name="ng6">
+        <datalist id="ng6">
         <option value="10">10</option>
         <option value="15">15</option>
         <option value="20">20</option>
@@ -185,8 +189,10 @@ class Hello(object):
         <option value="40">40</option>
         <option value="45">45</option>
         <option value="50">50</option>
-        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <select name="ng6">
+        </datalist><br />
+        齒數7:<br />
+        <input list="ng7" name="ng7">
+        <datalist id="ng7">
         <option value="10">10</option>
         <option value="15">15</option>
         <option value="20">20</option>
@@ -196,9 +202,9 @@ class Hello(object):
         <option value="40">40</option>
         <option value="45">45</option>
         <option value="50">50</option>
-        </select><br />
+        </datalist><br /><br />
         模數:<br />
-        <input type=\"text\" name=\"K\"><br />
+        <input type=\"text\" name=\"m\"><br />
         壓力角(>33時會有錯誤):<br />
         <input type=\"text\" name=\"inp2\"><br />
         <input type=\"submit\" value=\"確定\">
