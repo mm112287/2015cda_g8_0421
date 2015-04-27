@@ -562,7 +562,7 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
         outString += "<br />"
         outString +="黑色，40223145兆銓繪製，齒數2:"+ng2
         outString += "<br />"
-        outString +="紅色，40223110常皓繪製，齒數3:"+ng3
+        outString +="紅色，40223110常浩繪製，齒數3:"+ng3
         outString += "<br />"
         outString +="紫色，40223129家偉繪製，齒數4:"+ng4
         outString += "<br />"
@@ -694,6 +694,17 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
 
 
     # 假如第3齒也要進行囓合, 又該如何進行繪圖?
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g3,y_g3)
+    ctx.rotate(th3)
+    # put it back
+    ctx.translate(-x_g3,-y_g3)
+    spur.Spur(ctx).Gear(x_g3,y_g3,rp_g3,n_g3, pa, "red")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:10號王常浩所繪製",x_g3-60, y_g3-10);
+
     # 將第3齒輪逆時鐘轉 90 度之後, 再往回轉第2齒輪定位帶動轉角, 然後再逆時鐘多轉一齒, 以便與第2齒輪進行囓合
 
     # 第1個 -pi/2 為將原先垂直的第3齒輪定位線逆時鐘旋轉 90 度
