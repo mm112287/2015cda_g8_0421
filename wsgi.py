@@ -112,7 +112,7 @@ class Hello(object):
 
         </select>
         模數:<br />
-        <input type=\"text\" name=\"K\"><br />
+        <input type=\"text\" name=\"m\"><br />
         壓力角(>33時會有錯誤):<br />
         <input type=\"text\" name=\"inp2\"><br />
         <input type=\"submit\" value=\"確定\">
@@ -120,30 +120,96 @@ class Hello(object):
         <a href="gear">3D齒輪模式</a>
     </form>
         
-    <form method=\"post\" action=\"mygeartest2\">
+     <form method=\"post\" action=\"mygeartest2\">
         <fieldset>
-        <legend>協同考試七個齒輪契合齒輪參數表單值:</legend>
+        <legend>考試協同七個齒輪齒輪參數表單值:</legend>
         齒數1:<br />
         <input type=\"text\" name=\"ng1\"><br />
         齒數2:<br />
-        <input type=\"text\" name=\"ng2\"><br />
+        <input list="ng2" name="ng2">
+        <datalist id="ng2">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </datalist><br />
         齒數3:<br />
-        <input type=\"text\" name=\"ng3\"><br />
-        齒數4:<br />
-        <input type=\"text\" name=\"ng4\"><br />
+        <input list="ng3" name="ng3">
+        <datalist id="ng3">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </datalist><br />
+        齒數4: <br />
+        <input list="ng4" name="ng4">
+        <datalist id="ng4">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </datalist><br />
         齒數5:<br />
-        <input type=\"text\" name=\"ng5\"><br />
+        <input list="ng5" name="ng5">
+        <datalist id="ng5">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </datalist><br />
         齒數6:<br />
-        <input type=\"text\" name=\"ng6\"><br />
+        <input list="ng6" name="ng6">
+        <datalist id="ng6">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </datalist><br />
         齒數7:<br />
-        <input type=\"text\" name=\"ng7\"><br />
-        </select>
+        <input list="ng7" name="ng7">
+        <datalist id="ng7">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </datalist><br /><br />
         模數:<br />
         <input type=\"text\" name=\"m\"><br />
         壓力角(>33時會有錯誤):<br />
         <input type=\"text\" name=\"inp2\"><br />
         <input type=\"submit\" value=\"確定\">
         <input type=\"reset\" value=\"重填\">
+        <a href="gear">3D齒輪模式</a>
     </form>
     3D齒輪模式操作圖示<img src="https://copy.com/LEfCvgTRr6ptU2Jv"><br />
     <img src="https://copy.com/ZpzLF8IqeJRN0D3O"><br />
@@ -562,7 +628,7 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
         outString += "<br />"
         outString +="黑色，40223145兆銓繪製，齒數2:"+ng2
         outString += "<br />"
-        outString +="紅色，40223110常皓繪製，齒數3:"+ng3
+        outString +="紅色，40223110常浩繪製，齒數3:"+ng3
         outString += "<br />"
         outString +="紫色，40223129家偉繪製，齒數4:"+ng4
         outString += "<br />"
@@ -694,7 +760,52 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
 
 
     # 假如第3齒也要進行囓合, 又該如何進行繪圖?
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g3,y_g3)
+    ctx.rotate(th3)
+    # put it back
+    ctx.translate(-x_g3,-y_g3)
+    spur.Spur(ctx).Gear(x_g3,y_g3,rp_g3,n_g3, pa, "red")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:10號王常浩所繪製",x_g3-60, y_g3-10);
+ # 假如第7齒也要進行囓合, 又該如何進行繪圖?
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g7, y_g7)
+    # rotate to engage
+    ctx.rotate(th7)
+    # put it back
+    ctx.translate(-x_g7, -y_g7)
+    spur.Spur(ctx).Gear(x_g7, y_g7, rp_g7, n_g7, pa, "orange")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:51號簡正斌所繪製",x_g7-60, y_g7-10);
+
+
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g4,y_g4)
+    ctx.rotate(th4)
+    # put it back
+    ctx.translate(-x_g4,-y_g4)
+    spur.Spur(ctx).Gear(x_g4,y_g4,rp_g4,n_g4, pa, "purple")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:29號許家瑋所繪製",x_g4-60, y_g4-10);
+
     # 將第3齒輪逆時鐘轉 90 度之後, 再往回轉第2齒輪定位帶動轉角, 然後再逆時鐘多轉一齒, 以便與第2齒輪進行囓合
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g5,y_g5)
+    ctx.rotate(th5)
+    # put it back
+    ctx.translate(-x_g5,-y_g5)
+    spur.Spur(ctx).Gear(x_g5,y_g5,rp_g5,n_g5, pa, "yellow")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:49號賴涵餘所繪製",x_g5-60, y_g5-10);
 
     # 第1個 -pi/2 為將原先垂直的第3齒輪定位線逆時鐘旋轉 90 度
     # -pi/n_g3 則是第3齒與第2齒定位線重合後, 必須再逆時鐘多轉一齒的轉角, 以便進行囓合
