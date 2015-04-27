@@ -708,6 +708,18 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
     # 假如第4齒也要進行囓合, 又該如何進行繪圖?
     # 假如第5齒也要進行囓合, 又該如何進行繪圖?
     # 假如第6齒也要進行囓合, 又該如何進行繪圖?
+
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g6,y_g6)
+    ctx.rotate(th6)
+    # put it back
+    ctx.translate(-x_g6,-y_g6)
+    spur.Spur(ctx).Gear(x_g6,y_g6,rp_g6,n_g6, pa, "green")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:50號謝俊宇所繪製",x_g6-60, y_g6-10);
+
     # 假如第7齒也要進行囓合, 又該如何進行繪圖?
 
 
