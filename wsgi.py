@@ -122,28 +122,88 @@ class Hello(object):
         
     <form method=\"post\" action=\"mygeartest2\">
         <fieldset>
-        <legend>協同考試七個齒輪契合齒輪參數表單值:</legend>
+        <legend>考試協同七個齒輪齒輪參數表單值:</legend>
         齒數1:<br />
-        <input type=\"text\" name=\"ng1\"><br />
-        齒數2:<br />
-        <input type=\"text\" name=\"ng2\"><br />
-        齒數3:<br />
-        <input type=\"text\" name=\"ng3\"><br />
-        齒數4:<br />
-        <input type=\"text\" name=\"ng4\"><br />
-        齒數5:<br />
-        <input type=\"text\" name=\"ng5\"><br />
-        齒數6:<br />
-        <input type=\"text\" name=\"ng6\"><br />
-        齒數7:<br />
-        <input type=\"text\" name=\"ng7\"><br />
-        </select>
+        <input type=\"text\" name=\"N\"><br />
+
+
+
+        齒數2:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 齒數3:<br />
+        <select name="ng1">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <select name="ng2">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </select><br />
+        齒數4: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;齒數5:<br />
+        <select name="ng3">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <select name="ng4">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </select><br />
+        齒數6:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;齒數7:<br />
+        <select name="ng5">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <select name="ng6">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="35">35</option>
+        <option value="40">40</option>
+        <option value="45">45</option>
+        <option value="50">50</option>
+        </select><br />
         模數:<br />
-        <input type=\"text\" name=\"m\"><br />
+        <input type=\"text\" name=\"K\"><br />
         壓力角(>33時會有錯誤):<br />
         <input type=\"text\" name=\"inp2\"><br />
         <input type=\"submit\" value=\"確定\">
         <input type=\"reset\" value=\"重填\">
+        <a href="gear">3D齒輪模式</a>
     </form>
     3D齒輪模式操作圖示<img src="https://copy.com/LEfCvgTRr6ptU2Jv"><br />
     <img src="https://copy.com/ZpzLF8IqeJRN0D3O"><br />
@@ -562,7 +622,7 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
         outString += "<br />"
         outString +="黑色，40223145兆銓繪製，齒數2:"+ng2
         outString += "<br />"
-        outString +="紅色，40223110常皓繪製，齒數3:"+ng3
+        outString +="紅色，40223110常浩繪製，齒數3:"+ng3
         outString += "<br />"
         outString +="紫色，40223129家偉繪製，齒數4:"+ng4
         outString += "<br />"
@@ -694,6 +754,29 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
 
 
     # 假如第3齒也要進行囓合, 又該如何進行繪圖?
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g3,y_g3)
+    ctx.rotate(th3)
+    # put it back
+    ctx.translate(-x_g3,-y_g3)
+    spur.Spur(ctx).Gear(x_g3,y_g3,rp_g3,n_g3, pa, "red")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:10號王常浩所繪製",x_g3-60, y_g3-10);
+ # 假如第7齒也要進行囓合, 又該如何進行繪圖?
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g7, y_g7)
+    # rotate to engage
+    ctx.rotate(th7)
+    # put it back
+    ctx.translate(-x_g7, -y_g7)
+    spur.Spur(ctx).Gear(x_g7, y_g7, rp_g7, n_g7, pa, "orange")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:51號簡正斌所繪製",x_g7-60, y_g7-10);
+
     # 將第3齒輪逆時鐘轉 90 度之後, 再往回轉第2齒輪定位帶動轉角, 然後再逆時鐘多轉一齒, 以便與第2齒輪進行囓合
     ctx.save()
     # translate to the origin of second gear
