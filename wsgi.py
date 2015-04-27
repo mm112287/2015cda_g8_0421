@@ -777,6 +777,18 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
     ctx.font = "10px Verdana";
     ctx.fillText("組員:51號簡正斌所繪製",x_g7-60, y_g7-10);
 
+
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g4,y_g4)
+    ctx.rotate(th4)
+    # put it back
+    ctx.translate(-x_g4,-y_g4)
+    spur.Spur(ctx).Gear(x_g4,y_g4,rp_g4,n_g4, pa, "purple")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:29號許家瑋所繪製",x_g4-60, y_g4-10);
+
     # 將第3齒輪逆時鐘轉 90 度之後, 再往回轉第2齒輪定位帶動轉角, 然後再逆時鐘多轉一齒, 以便與第2齒輪進行囓合
     ctx.save()
     # translate to the origin of second gear
