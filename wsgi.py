@@ -104,6 +104,7 @@ class Hello(object):
     <!DOCTYPE html> 
     <html>
     <head>
+    40223150 齒輪表單輸入
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <!-- 載入 brython.js -->
     <script type="text/javascript" src="/static/Brython3.1.0-20150301-090019/brython.js"></script>
@@ -112,6 +113,7 @@ class Hello(object):
     </head>
     <!-- 啟動 brython() -->
     <body onload="brython()">
+<<<<<<< HEAD
     <form method=\"post\" action=\"spuraction\">
         <fieldset>
         <legend>40223110齒輪參數表單:</legend>
@@ -121,12 +123,18 @@ class Hello(object):
         </select>
         模數:<br />
         <input type=\"text\" name=\"K\"><br />
-        壓力角(>33時會有錯誤):<br />
-        <input type=\"text\" name=\"inp2\"><br />
-        <input type=\"submit\" value=\"確定\">
-        <input type=\"reset\" value=\"重填\">
-        
-        
+=======
+    <hr>
+    <!-- 以下在網頁內嵌 Brython 程式 -->
+    <script type="text/python">
+    from browser import document, alert
+
+    def echo(ev):
+        alert(document["zone"].value)
+
+    # 將文件中名稱為 mybutton 的物件, 透過 click 事件與 echo 函式 bind 在一起
+    document['mybutton'].bind('click',echo)
+    </script>
 
     <!-- 以下為 canvas 畫圖程式 -->
 <script type="text/python">
@@ -257,6 +265,724 @@ gear(400,400,300,41,"blue")
     '''
 
         return outstring
+    #@+node:2015.20150428100013.1966: *3* spur
+    @cherrypy.expose
+    def spur(self, K=None, N=None, inp2=None):
+        # 將標準答案存入 answer session 對應區
+        theanswer = random.randint(1, 100)
+        thecount = 0
+        # 將答案與計算次數變數存進 session 對應變數
+        cherrypy.session['answer'] = theanswer
+        cherrypy.session['count'] = thecount
+        # 印出讓使用者輸入的超文件表單
+        outstring1 = '''
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.0-20150301-090019/brython.js"></script>
+    <script src="/static/Cango2D.js" type="text/javascript"></script>
+    <script src="/static/gearUtils-04.js" type="text/javascript"></script>
+    </head>
+    <!-- 啟動 brython() -->
+    <body onload="brython()">
+    <form method=\"post\" action=\"spuraction\">
+        <fieldset>
+        <legend>spur齒輪參數表單:</legend>
+        齒數:<br />
+        <input type=\"text\" name=\"N\"><br />
+        </select>
+        模數:<br />
+        <input type=\"text\" name=\"m\"><br />
+>>>>>>> efd1473385b83183e9045ea6cabf638e079e35e4
+        壓力角(>33時會有錯誤):<br />
+        <input type=\"text\" name=\"inp2\"><br />
+        <input type=\"submit\" value=\"確定\">
+        <input type=\"reset\" value=\"重填\">
+<<<<<<< HEAD
+        
+        
+=======
+    </form>
+
+    <hr>
+    <!-- 以下在網頁內嵌 Brython 程式 -->
+    <script type="text/python">
+    from browser import document, alert
+
+    def echo(ev):
+        alert(document["zone"].value)
+
+    # 將文件中名稱為 mybutton 的物件, 透過 click 事件與 echo 函式 bind 在一起
+    document['mybutton'].bind('click',echo)
+    </script>
+>>>>>>> efd1473385b83183e9045ea6cabf638e079e35e4
+
+    <!-- 以下為 canvas 畫圖程式 -->
+<script type="text/python">
+# 從 browser 導入 document
+from browser import document
+from math import *
+
+# 準備在 id="plotarea" 的 canvas 中繪圖
+canvas = document["plotarea"]
+ctx = canvas.getContext("2d")
+
+def create_line(x1, y1, x2, y2, width=3, fill="red"):
+    ctx.beginPath()
+    ctx.lineWidth = width
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+    ctx.strokeStyle = fill
+    ctx.stroke()
+
+# 導入數學函式後, 圓周率為 pi
+# deg 為角度轉為徑度的轉換因子
+deg = pi/180.
+#
+# 以下分別為正齒輪繪圖與主 tkinter 畫布繪圖
+#
+# 定義一個繪正齒輪的繪圖函式
+# midx 為齒輪圓心 x 座標
+# midy 為齒輪圓心 y 座標
+# rp 為節圓半徑, n 為齒數
+def gear(midx, midy, rp, n, 顏色):
+    # 將角度轉換因子設為全域變數
+    global deg
+    # 齒輪漸開線分成 15 線段繪製
+    imax = 15
+    # 在輸入的畫布上繪製直線, 由圓心到節圓 y 軸頂點畫一直線
+    create_line(midx, midy, midx, midy-rp)
+    # 畫出 rp 圓, 畫圓函式尚未定義
+    #create_oval(midx-rp, midy-rp, midx+rp, midy+rp, width=2)
+    # a 為模數 (代表公制中齒的大小), 模數為節圓直徑(稱為節徑)除以齒數
+    # 模數也就是齒冠大小
+    a=2*rp/n
+    # d 為齒根大小, 為模數的 1.157 或 1.25倍, 這裡採 1.25 倍
+    d=2.5*rp/n
+    # ra 為齒輪的外圍半徑
+    ra=rp+a
+    print("ra:", ra)
+    # 畫出 ra 圓, 畫圓函式尚未定義
+    #create_oval(midx-ra, midy-ra, midx+ra, midy+ra, width=1)
+    # rb 則為齒輪的基圓半徑
+    # 基圓為漸開線長齒之基準圓
+    rb=rp*cos(20*deg)
+    print("rp:", rp)
+    print("rb:", rb)
+    # 畫出 rb 圓 (基圓), 畫圓函式尚未定義
+    #create_oval(midx-rb, midy-rb, midx+rb, midy+rb, width=1)
+    # rd 為齒根圓半徑
+    rd=rp-d
+    # 當 rd 大於 rb 時
+    print("rd:", rd)
+    # 畫出 rd 圓 (齒根圓), 畫圓函式尚未定義
+    #create_oval(midx-rd, midy-rd, midx+rd, midy+rd, width=1)
+    # dr 則為基圓到齒頂圓半徑分成 imax 段後的每段半徑增量大小
+    # 將圓弧分成 imax 段來繪製漸開線
+    dr=(ra-rb)/imax
+    # tan(20*deg)-20*deg 為漸開線函數
+    sigma=pi/(2*n)+tan(20*deg)-20*deg
+    for j in range(n):
+        ang=-2.*j*pi/n+sigma
+        ang2=2.*j*pi/n+sigma
+        lxd=midx+rd*sin(ang2-2.*pi/n)
+        lyd=midy-rd*cos(ang2-2.*pi/n)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(alpha-ang)
+            ypt=r*cos(alpha-ang)
+            xd=rd*sin(-ang)
+            yd=rd*cos(-ang)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由左側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                lfx=midx+xpt
+                lfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # the line from last end of dedendum point to the recent
+        # end of dedendum point
+        # lxd 為齒根圓上的左側 x 座標, lyd 則為 y 座標
+        # 下列為齒根圓上用來近似圓弧的直線
+        create_line((lxd),(lyd),(midx+xd),(midy-yd),fill=顏色)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(ang2-alpha)
+            ypt=r*cos(ang2-alpha)
+            xd=rd*sin(ang2)
+            yd=rd*cos(ang2)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由右側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                rfx=midx+xpt
+                rfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # lfx 為齒頂圓上的左側 x 座標, lfy 則為 y 座標
+        # 下列為齒頂圓上用來近似圓弧的直線
+        create_line(lfx,lfy,rfx,rfy,fill=顏色)
+
+gear(400,400,300,41,"blue")
+</script>
+<canvas id="plotarea" width="800" height="800"></canvas>
+</body>
+</html>
+    '''
+
+        return outstring1
+    #@+node:2015.20150428100013.1968: *3* drawspur
+    @cherrypy.expose
+    def drawspur(self, K=None, N=None, inp2=None):
+        # 將標準答案存入 answer session 對應區
+        theanswer = random.randint(1, 100)
+        thecount = 0
+        # 將答案與計算次數變數存進 session 對應變數
+        cherrypy.session['answer'] = theanswer
+        cherrypy.session['count'] = thecount
+        # 印出讓使用者輸入的超文件表單
+        outstring2 = '''
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.0-20150301-090019/brython.js"></script>
+    <script src="/static/Cango2D.js" type="text/javascript"></script>
+    <script src="/static/gearUtils-04.js" type="text/javascript"></script>
+    </head>
+    <!-- 啟動 brython() -->
+    <body onload="brython()">
+    <form method=\"post\" action=\"drawspuraction\">
+        <fieldset>
+        <legend>drawspur齒輪參數表單:</legend>
+        齒數:<br />
+        <input type=\"text\" name=\"N\"><br />
+
+        </select>
+        模數:<br />
+        <input type=\"text\" name=\"m\"><br />
+        壓力角(>33時會有錯誤):<br />
+        <input type=\"text\" name=\"inp2\"><br />
+        <input type=\"submit\" value=\"確定\">
+        <input type=\"reset\" value=\"重填\">
+        <a href="gear">3D齒輪模式</a>
+    </form>
+
+    <hr>
+    <!-- 以下在網頁內嵌 Brython 程式 -->
+    <script type="text/python">
+    from browser import document, alert
+
+    def echo(ev):
+        alert(document["zone"].value)
+
+    # 將文件中名稱為 mybutton 的物件, 透過 click 事件與 echo 函式 bind 在一起
+    document['mybutton'].bind('click',echo)
+    </script>
+
+    <!-- 以下為 canvas 畫圖程式 -->
+<script type="text/python">
+# 從 browser 導入 document
+from browser import document
+from math import *
+
+# 準備在 id="plotarea" 的 canvas 中繪圖
+canvas = document["plotarea"]
+ctx = canvas.getContext("2d")
+
+def create_line(x1, y1, x2, y2, width=3, fill="red"):
+    ctx.beginPath()
+    ctx.lineWidth = width
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+    ctx.strokeStyle = fill
+    ctx.stroke()
+
+# 導入數學函式後, 圓周率為 pi
+# deg 為角度轉為徑度的轉換因子
+deg = pi/180.
+#
+# 以下分別為正齒輪繪圖與主 tkinter 畫布繪圖
+#
+# 定義一個繪正齒輪的繪圖函式
+# midx 為齒輪圓心 x 座標
+# midy 為齒輪圓心 y 座標
+# rp 為節圓半徑, n 為齒數
+def gear(midx, midy, rp, n, 顏色):
+    # 將角度轉換因子設為全域變數
+    global deg
+    # 齒輪漸開線分成 15 線段繪製
+    imax = 15
+    # 在輸入的畫布上繪製直線, 由圓心到節圓 y 軸頂點畫一直線
+    create_line(midx, midy, midx, midy-rp)
+    # 畫出 rp 圓, 畫圓函式尚未定義
+    #create_oval(midx-rp, midy-rp, midx+rp, midy+rp, width=2)
+    # a 為模數 (代表公制中齒的大小), 模數為節圓直徑(稱為節徑)除以齒數
+    # 模數也就是齒冠大小
+    a=2*rp/n
+    # d 為齒根大小, 為模數的 1.157 或 1.25倍, 這裡採 1.25 倍
+    d=2.5*rp/n
+    # ra 為齒輪的外圍半徑
+    ra=rp+a
+    print("ra:", ra)
+    # 畫出 ra 圓, 畫圓函式尚未定義
+    #create_oval(midx-ra, midy-ra, midx+ra, midy+ra, width=1)
+    # rb 則為齒輪的基圓半徑
+    # 基圓為漸開線長齒之基準圓
+    rb=rp*cos(20*deg)
+    print("rp:", rp)
+    print("rb:", rb)
+    # 畫出 rb 圓 (基圓), 畫圓函式尚未定義
+    #create_oval(midx-rb, midy-rb, midx+rb, midy+rb, width=1)
+    # rd 為齒根圓半徑
+    rd=rp-d
+    # 當 rd 大於 rb 時
+    print("rd:", rd)
+    # 畫出 rd 圓 (齒根圓), 畫圓函式尚未定義
+    #create_oval(midx-rd, midy-rd, midx+rd, midy+rd, width=1)
+    # dr 則為基圓到齒頂圓半徑分成 imax 段後的每段半徑增量大小
+    # 將圓弧分成 imax 段來繪製漸開線
+    dr=(ra-rb)/imax
+    # tan(20*deg)-20*deg 為漸開線函數
+    sigma=pi/(2*n)+tan(20*deg)-20*deg
+    for j in range(n):
+        ang=-2.*j*pi/n+sigma
+        ang2=2.*j*pi/n+sigma
+        lxd=midx+rd*sin(ang2-2.*pi/n)
+        lyd=midy-rd*cos(ang2-2.*pi/n)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(alpha-ang)
+            ypt=r*cos(alpha-ang)
+            xd=rd*sin(-ang)
+            yd=rd*cos(-ang)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由左側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                lfx=midx+xpt
+                lfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # the line from last end of dedendum point to the recent
+        # end of dedendum point
+        # lxd 為齒根圓上的左側 x 座標, lyd 則為 y 座標
+        # 下列為齒根圓上用來近似圓弧的直線
+        create_line((lxd),(lyd),(midx+xd),(midy-yd),fill=顏色)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(ang2-alpha)
+            ypt=r*cos(ang2-alpha)
+            xd=rd*sin(ang2)
+            yd=rd*cos(ang2)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由右側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                rfx=midx+xpt
+                rfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # lfx 為齒頂圓上的左側 x 座標, lfy 則為 y 座標
+        # 下列為齒頂圓上用來近似圓弧的直線
+        create_line(lfx,lfy,rfx,rfy,fill=顏色)
+
+gear(400,400,300,41,"blue")
+</script>
+<canvas id="plotarea" width="800" height="800"></canvas>
+</body>
+</html>
+    '''
+
+        return outstring2
+    #@+node:2015.20150330144929.1713: *3* twoDgear
+    @cherrypy.expose
+    # N 為齒數, M 為模數, P 為壓力角
+    def twoDgear(self, N=20, M=5, P=15):
+        outstring = '''
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.0-20150301-090019/brython.js"></script>
+    <script src="/static/Cango2D.js" type="text/javascript"></script>
+    <script src="/static/gearUtils-04.js" type="text/javascript"></script>
+    </head>
+    <!-- 啟動 brython() -->
+    <body onload="brython()">
+        
+    <form method=POST action=do2Dgear>
+    齒數:<input type=text name=N><br />
+    模數:<input type=text name=M><br />
+    壓力角:<input type=text name=P><br />
+    <input type=submit value=send>
+    </form>
+    </body>
+    </html>
+    '''
+
+        return outstring
+    #@+node:2015.20150428100013.1970: *3* spuraction2
+    @cherrypy.expose
+    def spuracton2(self, K=None, N=None,inp2=None):
+        inp3=int(N)*int(K)/2
+        #inp 變數即為表單值, 其格式為字串
+        outString = ""
+        outString +="齒數:"+N
+        outString += "<br />"
+        outString +="模數:"+K
+        outString += "<br />"
+        outString +="壓力角:"+inp2
+        outString += "<br />"
+        outString += self.menuLink()
+        outString += '''
+
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.0-20150301-090019/brython.js"></script>
+    <script src="/static/Cango2D.js" type="text/javascript"></script>
+    <script src="/static/gearUtils-04.js" type="text/javascript"></script>
+    </head>
+    <!-- 啟動 brython() -->
+    <body onload="brython()">
+    <hr>
+    <!-- 以下為 canvas 畫圖程式 -->
+<script type="text/python">
+# 從 browser 導入 document
+from browser import document
+from math import *
+
+# 準備在 id="plotarea" 的 canvas 中繪圖
+canvas = document["plotarea"]
+ctx = canvas.getContext("2d")
+
+def create_line(x1, y1, x2, y2, width=3, fill="red"):
+    ctx.beginPath()
+    ctx.lineWidth = width
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+    ctx.strokeStyle = fill
+    ctx.stroke()
+
+# 導入數學函式後, 圓周率為 pi
+# deg 為角度轉為徑度的轉換因子
+deg = pi/180.
+#
+# 以下分別為正齒輪繪圖與主 tkinter 畫布繪圖
+#
+# 定義一個繪正齒輪的繪圖函式
+# midx 為齒輪圓心 x 座標
+# midy 為齒輪圓心 y 座標
+# rp 為節圓半徑, n 為齒數
+def gear(midx1, midy, j, n, 顏色):
+    # 將角度轉換因子設為全域變數
+    global deg
+    # 齒輪漸開線分成 15 線段繪製
+    imax = 15
+    # 在輸入的畫布上繪製直線, 由圓心到節圓 y 軸頂點畫一直線
+    rp=j*n/2
+    if (midx1>0):
+        midx=midx1
+    else:
+        midx=400+(rp+6)*2
+    create_line(midx, midy, midx, midy-rp)
+    # 畫出 rp 圓, 畫圓函式尚未定義
+    #create_oval(midx-rp, midy-rp, midx+rp, midy+rp, width=2)
+    # a 為模數 (代表公制中齒的大小), 模數為節圓直徑(稱為節徑)除以齒數
+    # 模數也就是齒冠大小
+    a=2*rp/n
+    # d 為齒根大小, 為模數的 1.157 或 1.25倍, 這裡採 1.25 倍
+    d=2.5*rp/n
+    # ra 為齒輪的外圍半徑
+    ra=rp+a
+    print("ra:", ra)
+    # 畫出 ra 圓, 畫圓函式尚未定義
+    #create_oval(midx-ra, midy-ra, midx+ra, midy+ra, width=1)
+    # rb 則為齒輪的基圓半徑
+    # 基圓為漸開線長齒之基準圓
+    rb=rp*cos(20*deg)
+    print("rp:", rp)
+    print("rb:", rb)
+    # 畫出 rb 圓 (基圓), 畫圓函式尚未定義
+    #create_oval(midx-rb, midy-rb, midx+rb, midy+rb, width=1)
+    # rd 為齒根圓半徑
+    rd=rp-d
+    # 當 rd 大於 rb 時
+    print("rd:", rd)
+    # 畫出 rd 圓 (齒根圓), 畫圓函式尚未定義
+    #create_oval(midx-rd, midy-rd, midx+rd, midy+rd, width=1)
+    # dr 則為基圓到齒頂圓半徑分成 imax 段後的每段半徑增量大小
+    # 將圓弧分成 imax 段來繪製漸開線
+    dr=(ra-rb)/imax
+    # tan(20*deg)-20*deg 為漸開線函數
+    sigma=pi/(2*n)+tan('''+(inp2)+'''*deg)-'''+(inp2)+'''*deg
+    for j in range(n):
+        ang=-2.*j*pi/n+sigma
+        ang2=2.*j*pi/n+sigma
+        lxd=midx+rd*sin(ang2-2.*pi/n)
+        lyd=midy-rd*cos(ang2-2.*pi/n)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(alpha-ang)
+            ypt=r*cos(alpha-ang)
+            xd=rd*sin(-ang)
+            yd=rd*cos(-ang)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由左側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                lfx=midx+xpt
+                lfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # the line from last end of dedendum point to the recent
+        # end of dedendum point
+        # lxd 為齒根圓上的左側 x 座標, lyd 則為 y 座標
+        # 下列為齒根圓上用來近似圓弧的直線
+        create_line((lxd),(lyd),(midx+xd),(midy-yd),fill=顏色)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(ang2-alpha)
+            ypt=r*cos(ang2-alpha)
+            xd=rd*sin(ang2)
+            yd=rd*cos(ang2)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由右側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                rfx=midx+xpt
+                rfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # lfx 為齒頂圓上的左側 x 座標, lfy 則為 y 座標
+        # 下列為齒頂圓上用來近似圓弧的直線
+        create_line(lfx,lfy,rfx,rfy,fill=顏色)
+
+#gear(400,400,'''+str(K)+''','''+str(N)+''',"blue")
+#gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
+</script>
+<canvas id="plotarea" width="1000" height="1000"></canvas>
+</body>
+</html>
+    '''
+
+        return outString
+    spuracton.exposed = True
+    def guessform(self):
+        # 印出讓使用者輸入的超文件表單
+        outstring = str(cherrypy.session.get('answer')) + "/" + str(cherrypy.session.get('count')) + '''<form method=POST action=doCheck>
+    請輸入您所猜的整數:<input type=text name=guess><br />
+    <input type=submit value=send>
+    </form>'''
+        return outstring0
+    #@+node:2015.20150428100013.1972: *3* drawspuraction
+    @cherrypy.expose
+    def drawspuracton(self, K=None, N=None):
+        inp3=int(N)*int(K)/2
+        #inp 變數即為表單值, 其格式為字串
+        outString = ""
+        outString += "<br />"
+        outString += self.menuLink()
+        outString += '''
+
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.0-20150301-090019/brython.js"></script>
+    <script src="/static/Cango2D.js" type="text/javascript"></script>
+    <script src="/static/gearUtils-04.js" type="text/javascript"></script>
+    </head>
+    <!-- 啟動 brython() -->
+    <body onload="brython()">
+    <hr>
+    <!-- 以下為 canvas 畫圖程式 -->
+<script type="text/python">
+# 從 browser 導入 document
+from browser import document
+from math import *
+
+# 準備在 id="plotarea" 的 canvas 中繪圖
+canvas = document["plotarea"]
+ctx = canvas.getContext("2d")
+
+def create_line(x1, y1, x2, y2, width=3, fill="red"):
+    ctx.beginPath()
+    ctx.lineWidth = width
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+    ctx.strokeStyle = fill
+    ctx.stroke()
+
+# 導入數學函式後, 圓周率為 pi
+# deg 為角度轉為徑度的轉換因子
+deg = pi/180.
+#
+# 以下分別為正齒輪繪圖與主 tkinter 畫布繪圖
+#
+# 定義一個繪正齒輪的繪圖函式
+# midx 為齒輪圓心 x 座標
+# midy 為齒輪圓心 y 座標
+# rp 為節圓半徑, n 為齒數
+def gear(midx1, midy, j, n, 顏色):
+    # 將角度轉換因子設為全域變數
+    global deg
+    # 齒輪漸開線分成 15 線段繪製
+    imax = 15
+    # 在輸入的畫布上繪製直線, 由圓心到節圓 y 軸頂點畫一直線
+    rp=j*n/2
+    if (midx1>0):
+        midx=midx1
+    else:
+        midx=400+(rp+6)*2
+    create_line(midx, midy, midx, midy-rp)
+    # 畫出 rp 圓, 畫圓函式尚未定義
+    #create_oval(midx-rp, midy-rp, midx+rp, midy+rp, width=2)
+    # a 為模數 (代表公制中齒的大小), 模數為節圓直徑(稱為節徑)除以齒數
+    # 模數也就是齒冠大小
+    a=2*rp/n
+    # d 為齒根大小, 為模數的 1.157 或 1.25倍, 這裡採 1.25 倍
+    d=2.5*rp/n
+    # ra 為齒輪的外圍半徑
+    ra=rp+a
+    print("ra:", ra)
+    # 畫出 ra 圓, 畫圓函式尚未定義
+    #create_oval(midx-ra, midy-ra, midx+ra, midy+ra, width=1)
+    # rb 則為齒輪的基圓半徑
+    # 基圓為漸開線長齒之基準圓
+    rb=rp*cos(20*deg)
+    print("rp:", rp)
+    print("rb:", rb)
+    # 畫出 rb 圓 (基圓), 畫圓函式尚未定義
+    #create_oval(midx-rb, midy-rb, midx+rb, midy+rb, width=1)
+    # rd 為齒根圓半徑
+    rd=rp-d
+    # 當 rd 大於 rb 時
+    print("rd:", rd)
+    # 畫出 rd 圓 (齒根圓), 畫圓函式尚未定義
+    #create_oval(midx-rd, midy-rd, midx+rd, midy+rd, width=1)
+    # dr 則為基圓到齒頂圓半徑分成 imax 段後的每段半徑增量大小
+    # 將圓弧分成 imax 段來繪製漸開線
+    dr=(ra-rb)/imax
+    # tan(20*deg)-20*deg 為漸開線函數
+    sigma=pi/(2*n)+tan('''+(inp2)+'''*deg)-'''+(inp2)+'''*deg
+    for j in range(n):
+        ang=-2.*j*pi/n+sigma
+        ang2=2.*j*pi/n+sigma
+        lxd=midx+rd*sin(ang2-2.*pi/n)
+        lyd=midy-rd*cos(ang2-2.*pi/n)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(alpha-ang)
+            ypt=r*cos(alpha-ang)
+            xd=rd*sin(-ang)
+            yd=rd*cos(-ang)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由左側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                lfx=midx+xpt
+                lfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # the line from last end of dedendum point to the recent
+        # end of dedendum point
+        # lxd 為齒根圓上的左側 x 座標, lyd 則為 y 座標
+        # 下列為齒根圓上用來近似圓弧的直線
+        create_line((lxd),(lyd),(midx+xd),(midy-yd),fill=顏色)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(ang2-alpha)
+            ypt=r*cos(ang2-alpha)
+            xd=rd*sin(ang2)
+            yd=rd*cos(ang2)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由右側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                rfx=midx+xpt
+                rfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # lfx 為齒頂圓上的左側 x 座標, lfy 則為 y 座標
+        # 下列為齒頂圓上用來近似圓弧的直線
+        create_line(lfx,lfy,rfx,rfy,fill=顏色)
+
+gear(400,400,'''+str(K)+''','''+str(N)+''',"blue")
+gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
+</script>
+<canvas id="plotarea" width="1000" height="1000"></canvas>
+</body>
+</html>
+    '''
+
+<<<<<<< HEAD
+        return outstring
     #@+node:2015.20150330144929.1713: *3* twoDgear
     @cherrypy.expose
     # N 為齒數, M 為模數, P 為壓力角
@@ -287,6 +1013,17 @@ gear(400,400,300,41,"blue")
 
         return outstring
     #@+node:2015.20150428103834.1743: *3* spuraction
+=======
+        return outString
+    drawspuracton.exposed = True
+    def guessform(self):
+        # 印出讓使用者輸入的超文件表單
+        outstring = str(cherrypy.session.get('answer')) + "/" + str(cherrypy.session.get('count')) + '''<form method=POST action=doCheck>
+    請輸入您所猜的整數:<input type=text name=guess><br />
+    <input type=submit value=send>
+    </form>'''
+        return outstring0
+>>>>>>> efd1473385b83183e9045ea6cabf638e079e35e4
     #@+node:2015.20150330144929.1762: *3* do2Dgear
     @cherrypy.expose
     # N 為齒數, M 為模數, P 為壓力角
@@ -522,6 +1259,176 @@ gear(400,400,'''+str(K)+''','''+str(N)+''',"blue")
     <input type=submit value=send>
     </form>'''
         return outstring0
+    #@+node:2015.20150428100013.2037: *3* spuraction
+    @cherrypy.expose
+    def spuracton(self, K=None, N=None, inp2=None):
+        inp3=int(N)*int(K)/2
+        #inp 變數即為表單值, 其格式為字串
+        outString = ""
+        outString +="齒數:"+N
+        outString += "<br />"
+        outString +="模數:"+K
+        outString += "<br />"
+        outString +="壓力角:"+inp2
+        outString += "<br />"
+        outString += self.menuLink()
+        outString += '''
+
+    <!DOCTYPE html> 
+    <html>
+    <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <!-- 載入 brython.js -->
+    <script type="text/javascript" src="/static/Brython3.1.0-20150301-090019/brython.js"></script>
+    <script src="/static/Cango2D.js" type="text/javascript"></script>
+    <script src="/static/gearUtils-04.js" type="text/javascript"></script>
+    </head>
+    <!-- 啟動 brython() -->
+    <body onload="brython()">
+    <hr>
+    <!-- 以下為 canvas 畫圖程式 -->
+<script type="text/python">
+# 從 browser 導入 document
+from browser import document
+from math import *
+
+# 準備在 id="plotarea" 的 canvas 中繪圖
+canvas = document["plotarea"]
+ctx = canvas.getContext("2d")
+
+def create_line(x1, y1, x2, y2, width=3, fill="red"):
+    ctx.beginPath()
+    ctx.lineWidth = width
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+    ctx.strokeStyle = fill
+    ctx.stroke()
+
+# 導入數學函式後, 圓周率為 pi
+# deg 為角度轉為徑度的轉換因子
+deg = pi/180.
+#
+# 以下分別為正齒輪繪圖與主 tkinter 畫布繪圖
+#
+# 定義一個繪正齒輪的繪圖函式
+# midx 為齒輪圓心 x 座標
+# midy 為齒輪圓心 y 座標
+# rp 為節圓半徑, n 為齒數
+def gear(midx1, midy, j, n, 顏色):
+    # 將角度轉換因子設為全域變數
+    global deg
+    # 齒輪漸開線分成 15 線段繪製
+    imax = 15
+    # 在輸入的畫布上繪製直線, 由圓心到節圓 y 軸頂點畫一直線
+    rp=j*n/2
+    if (midx1>0):
+        midx=midx1
+    else:
+        midx=400+(rp+6)*2
+    create_line(midx, midy, midx, midy-rp)
+    # 畫出 rp 圓, 畫圓函式尚未定義
+    #create_oval(midx-rp, midy-rp, midx+rp, midy+rp, width=2)
+    # a 為模數 (代表公制中齒的大小), 模數為節圓直徑(稱為節徑)除以齒數
+    # 模數也就是齒冠大小
+    a=2*rp/n
+    # d 為齒根大小, 為模數的 1.157 或 1.25倍, 這裡採 1.25 倍
+    d=2.5*rp/n
+    # ra 為齒輪的外圍半徑
+    ra=rp+a
+    print("ra:", ra)
+    # 畫出 ra 圓, 畫圓函式尚未定義
+    #create_oval(midx-ra, midy-ra, midx+ra, midy+ra, width=1)
+    # rb 則為齒輪的基圓半徑
+    # 基圓為漸開線長齒之基準圓
+    rb=rp*cos(20*deg)
+    print("rp:", rp)
+    print("rb:", rb)
+    # 畫出 rb 圓 (基圓), 畫圓函式尚未定義
+    #create_oval(midx-rb, midy-rb, midx+rb, midy+rb, width=1)
+    # rd 為齒根圓半徑
+    rd=rp-d
+    # 當 rd 大於 rb 時
+    print("rd:", rd)
+    # 畫出 rd 圓 (齒根圓), 畫圓函式尚未定義
+    #create_oval(midx-rd, midy-rd, midx+rd, midy+rd, width=1)
+    # dr 則為基圓到齒頂圓半徑分成 imax 段後的每段半徑增量大小
+    # 將圓弧分成 imax 段來繪製漸開線
+    dr=(ra-rb)/imax
+    # tan(20*deg)-20*deg 為漸開線函數
+    sigma=pi/(2*n)+tan('''+(inp2)+'''*deg)-'''+(inp2)+'''*deg
+    for j in range(n):
+        ang=-2.*j*pi/n+sigma
+        ang2=2.*j*pi/n+sigma
+        lxd=midx+rd*sin(ang2-2.*pi/n)
+        lyd=midy-rd*cos(ang2-2.*pi/n)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(alpha-ang)
+            ypt=r*cos(alpha-ang)
+            xd=rd*sin(-ang)
+            yd=rd*cos(-ang)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由左側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                lfx=midx+xpt
+                lfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # the line from last end of dedendum point to the recent
+        # end of dedendum point
+        # lxd 為齒根圓上的左側 x 座標, lyd 則為 y 座標
+        # 下列為齒根圓上用來近似圓弧的直線
+        create_line((lxd),(lyd),(midx+xd),(midy-yd),fill=顏色)
+        #for(i=0;i<=imax;i++):
+        for i in range(imax+1):
+            r=rb+i*dr
+            theta=sqrt((r*r)/(rb*rb)-1.)
+            alpha=theta-atan(theta)
+            xpt=r*sin(ang2-alpha)
+            ypt=r*cos(ang2-alpha)
+            xd=rd*sin(ang2)
+            yd=rd*cos(ang2)
+            # i=0 時, 繪線起點由齒根圓上的點, 作為起點
+            if(i==0):
+                last_x = midx+xd
+                last_y = midy-yd
+            # 由右側齒根圓作為起點, 除第一點 (xd,yd) 齒根圓上的起點外, 其餘的 (xpt,ypt)則為漸開線上的分段點
+            create_line((midx+xpt),(midy-ypt),(last_x),(last_y),fill=顏色)
+            # 最後一點, 則為齒頂圓
+            if(i==imax):
+                rfx=midx+xpt
+                rfy=midy-ypt
+            last_x = midx+xpt
+            last_y = midy-ypt
+        # lfx 為齒頂圓上的左側 x 座標, lfy 則為 y 座標
+        # 下列為齒頂圓上用來近似圓弧的直線
+        create_line(lfx,lfy,rfx,rfy,fill=顏色)
+
+gear(400,400,'''+str(K)+''','''+str(N)+''',"blue")
+gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
+</script>
+<canvas id="plotarea" width="1000" height="1000"></canvas>
+</body>
+</html>
+    '''
+
+        return outString
+    @cherrypy.expose
+    def guessform(self):
+        # 印出讓使用者輸入的超文件表單
+        outstring = str(cherrypy.session.get('answer')) + "/" + str(cherrypy.session.get('count')) + '''<form method=POST action=doCheck>
+    請輸入您所猜的整數:<input type=text name=guess><br />
+    <input type=submit value=send>
+    </form>'''
+        return outstring0
     #@+node:2015.20150420212038.1941: *3* mygeartest2
     @cherrypy.expose
     # N 為齒數, M 為模數, P 為壓力角
@@ -673,8 +1580,42 @@ gear(400,400,'''+str(K)+''','''+str(N)+''',"blue")
     ctx.restore()
     ctx.font = "10px Verdana";
     ctx.fillText("組員:10號王常浩所繪製",x_g3-60, y_g3-10);
+ # 假如第7齒也要進行囓合, 又該如何進行繪圖?
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g7, y_g7)
+    # rotate to engage
+    ctx.rotate(th7)
+    # put it back
+    ctx.translate(-x_g7, -y_g7)
+    spur.Spur(ctx).Gear(x_g7, y_g7, rp_g7, n_g7, pa, "orange")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:51號簡正斌所繪製",x_g7-60, y_g7-10);
+
+
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g4,y_g4)
+    ctx.rotate(th4)
+    # put it back
+    ctx.translate(-x_g4,-y_g4)
+    spur.Spur(ctx).Gear(x_g4,y_g4,rp_g4,n_g4, pa, "purple")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:29號許家瑋所繪製",x_g4-60, y_g4-10);
 
     # 將第3齒輪逆時鐘轉 90 度之後, 再往回轉第2齒輪定位帶動轉角, 然後再逆時鐘多轉一齒, 以便與第2齒輪進行囓合
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g5,y_g5)
+    ctx.rotate(th5)
+    # put it back
+    ctx.translate(-x_g5,-y_g5)
+    spur.Spur(ctx).Gear(x_g5,y_g5,rp_g5,n_g5, pa, "yellow")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:49號賴涵餘所繪製",x_g5-60, y_g5-10);
 
     # 第1個 -pi/2 為將原先垂直的第3齒輪定位線逆時鐘旋轉 90 度
     # -pi/n_g3 則是第3齒與第2齒定位線重合後, 必須再逆時鐘多轉一齒的轉角, 以便進行囓合
@@ -688,6 +1629,18 @@ gear(400,400,'''+str(K)+''','''+str(N)+''',"blue")
     # 假如第4齒也要進行囓合, 又該如何進行繪圖?
     # 假如第5齒也要進行囓合, 又該如何進行繪圖?
     # 假如第6齒也要進行囓合, 又該如何進行繪圖?
+
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g6,y_g6)
+    ctx.rotate(th6)
+    # put it back
+    ctx.translate(-x_g6,-y_g6)
+    spur.Spur(ctx).Gear(x_g6,y_g6,rp_g6,n_g6, pa, "green")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:50號謝俊宇所繪製",x_g6-60, y_g6-10);
+
     # 假如第7齒也要進行囓合, 又該如何進行繪圖?
 
 
