@@ -84,7 +84,15 @@ class Hello(object):
         return toprint
     #@+node:2014fall.20141215194146.1791: *3* index
     @cherrypy.expose
-    def index(self, K=None, N=None, inp2=None):
+    def index(self):
+        return '''
+        <br />
+        40223110
+        <br />
+        '''
+    @cherrypy.expose
+
+    def spur(self, K=None, N=None, inp2=None):
         # 將標準答案存入 answer session 對應區
         theanswer = random.randint(1, 100)
         thecount = 0
@@ -104,9 +112,9 @@ class Hello(object):
     </head>
     <!-- 啟動 brython() -->
     <body onload="brython()">
-    <form method=\"post\" action=\"doAct\">
+    <form method=\"post\" action=\"spuraction\">
         <fieldset>
-        <legend>功課齒輪參數表單:</legend>
+        <legend>40223110齒輪參數表單:</legend>
         齒數:<br />
         <input type=\"text\" name=\"N\"><br />
 
@@ -117,48 +125,8 @@ class Hello(object):
         <input type=\"text\" name=\"inp2\"><br />
         <input type=\"submit\" value=\"確定\">
         <input type=\"reset\" value=\"重填\">
-        <a href="gear">3D齒輪模式</a>
-    </form>
         
-    <form method=\"post\" action=\"mygeartest2\">
-        <fieldset>
-        <legend>協同考試七個齒輪契合齒輪參數表單值:</legend>
-        齒數1:<br />
-        <input type=\"text\" name=\"ng1\"><br />
-        齒數2:<br />
-        <input type=\"text\" name=\"ng2\"><br />
-        齒數3:<br />
-        <input type=\"text\" name=\"ng3\"><br />
-        齒數4:<br />
-        <input type=\"text\" name=\"ng4\"><br />
-        齒數5:<br />
-        <input type=\"text\" name=\"ng5\"><br />
-        齒數6:<br />
-        <input type=\"text\" name=\"ng6\"><br />
-        齒數7:<br />
-        <input type=\"text\" name=\"ng7\"><br />
-        </select>
-        模數:<br />
-        <input type=\"text\" name=\"m\"><br />
-        壓力角(>33時會有錯誤):<br />
-        <input type=\"text\" name=\"inp2\"><br />
-        <input type=\"submit\" value=\"確定\">
-        <input type=\"reset\" value=\"重填\">
-    </form>
-    3D齒輪模式操作圖示<img src="https://copy.com/LEfCvgTRr6ptU2Jv"><br />
-    <img src="https://copy.com/ZpzLF8IqeJRN0D3O"><br />
-    <img src="https://copy.com/thumbs/cda/3Dgear3.png?size=1024&revision=80"><br />
-    <hr>
-    <!-- 以下在網頁內嵌 Brython 程式 -->
-    <script type="text/python">
-    from browser import document, alert
-
-    def echo(ev):
-        alert(document["zone"].value)
-
-    # 將文件中名稱為 mybutton 的物件, 透過 click 事件與 echo 函式 bind 在一起
-    document['mybutton'].bind('click',echo)
-    </script>
+        
 
     <!-- 以下為 canvas 畫圖程式 -->
 <script type="text/python">
@@ -310,6 +278,7 @@ gear(400,400,300,41,"blue")
     齒數:<input type=text name=N><br />
     模數:<input type=text name=M><br />
     壓力角:<input type=text name=P><br />
+
     <input type=submit value=send>
     </form>
     </body>
@@ -317,6 +286,7 @@ gear(400,400,300,41,"blue")
     '''
 
         return outstring
+    #@+node:2015.20150428103834.1743: *3* spuraction
     #@+node:2015.20150330144929.1762: *3* do2Dgear
     @cherrypy.expose
     # N 為齒數, M 為模數, P 為壓力角
@@ -383,9 +353,9 @@ gear(400,400,300,41,"blue")
     '''
 
         return outstring
-    #@+node:2014fall.20141215194146.1793: *3* doAct
+    #@+node:2014fall.20141215194146.1793: *3* spuraction
     @cherrypy.expose
-    def doAct(self, K=None, N=None, inp2=None):
+    def spuraction (self, K=None, N=None, inp2=None):
         inp3=int(N)*int(K)/2
         #inp 變數即為表單值, 其格式為字串
         outString = ""
@@ -537,7 +507,6 @@ def gear(midx1, midy, j, n, 顏色):
         create_line(lfx,lfy,rfx,rfy,fill=顏色)
 
 gear(400,400,'''+str(K)+''','''+str(N)+''',"blue")
-gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
 </script>
 <canvas id="plotarea" width="1000" height="1000"></canvas>
 </body>
@@ -545,7 +514,7 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
     '''
 
         return outString
-    doAct.exposed = True
+    spuraction.exposed = True
     def guessform(self):
         # 印出讓使用者輸入的超文件表單
         outstring = str(cherrypy.session.get('answer')) + "/" + str(cherrypy.session.get('count')) + '''<form method=POST action=doCheck>
