@@ -19,6 +19,7 @@ import os
 import random
 # 導入 gear 模組
 import gear
+import legoman
 
 ################# (2) 廣域變數設定區
 # 確定程式檔案所在目錄, 在 Windows 下有最後的反斜線
@@ -846,6 +847,54 @@ def gear(midx1, midy, j, n, 顏色):
     </head>
     <!-- 啟動 brython() -->
     <body onload="brython()">
+<<<<<<< HEAD
+    <a href="legoman">樂高機器人組立</a><br/> 
+    <form method=\"post\" action=\"doAct\">
+        <fieldset>
+        <legend>功課齒輪參數表單:</legend>
+        齒數:<br />
+        <input type=\"text\" name=\"N\"><br />
+
+        </select>
+        模數:<br />
+        <input type=\"text\" name=\"K\"><br />
+        壓力角(>33時會有錯誤):<br />
+        <input type=\"text\" name=\"inp2\"><br />
+        <input type=\"submit\" value=\"確定\">
+        <input type=\"reset\" value=\"重填\">
+        <a href="gear">3D齒輪模式</a>
+    </form>
+        
+    <form method=\"post\" action=\"mygeartest2\">
+        <fieldset>
+        <legend>協同考試七個齒輪契合齒輪參數表單值:</legend>
+        齒數1:<br />
+        <input type=\"text\" name=\"ng1\"><br />
+        齒數2:<br />
+        <input type=\"text\" name=\"ng2\"><br />
+        齒數3:<br />
+        <input type=\"text\" name=\"ng3\"><br />
+        齒數4:<br />
+        <input type=\"text\" name=\"ng4\"><br />
+        齒數5:<br />
+        <input type=\"text\" name=\"ng5\"><br />
+        齒數6:<br />
+        <input type=\"text\" name=\"ng6\"><br />
+        齒數7:<br />
+        <input type=\"text\" name=\"ng7\"><br />
+        </select>
+        模數:<br />
+        <input type=\"text\" name=\"m\"><br />
+        壓力角(>33時會有錯誤):<br />
+        <input type=\"text\" name=\"inp2\"><br />
+        <input type=\"submit\" value=\"確定\">
+        <input type=\"reset\" value=\"重填\">
+    </form>
+    3D齒輪模式操作圖示<img src="https://copy.com/LEfCvgTRr6ptU2Jv"><br />
+    <img src="https://copy.com/ZpzLF8IqeJRN0D3O"><br />
+    <img src="https://copy.com/thumbs/cda/3Dgear3.png?size=1024&revision=80"><br />
+=======
+>>>>>>> 59c48bdcaad34d1db313516cfbee5e719f6c6929
     <hr>
     <!-- 以下為 canvas 畫圖程式 -->
 <script type="text/python">
@@ -1567,7 +1616,16 @@ gear(0,400,'''+str(K)+''','''+str(N)+'''-2,"read")
     ctx.fillText("組員:24號袁丞宗所繪製",x_g1-60, y_g1-10);
 
     # 將第2齒輪逆時鐘轉 90 度之後, 再多轉一齒, 以便與第1齒輪進行囓合
-
+    ctx.save()
+    # translate to the origin of second gear
+    ctx.translate(x_g2,y_g2)
+    ctx.rotate(th2)
+    # put it back
+    ctx.translate(-x_g2,-y_g2)
+    spur.Spur(ctx).Gear(x_g2,y_g2,rp_g2,n_g2, pa, "black")
+    ctx.restore()
+    ctx.font = "10px Verdana";
+    ctx.fillText("組員:24號袁丞宗所繪製",x_g2-60, y_g2-10);
 
     # 假如第3齒也要進行囓合, 又該如何進行繪圖?
     ctx.save()
@@ -1680,7 +1738,8 @@ application_conf = {'/static':{
     }
 root = Hello()
 root.gear = gear.Gear()
-cherrypy.server.socket_port = 8082
+root.legoman = legoman.MAN()
+cherrypy.server.socket_port = 8081
 cherrypy.server.socket_host = '127.0.0.1'
 if 'OPENSHIFT_REPO_DIR' in os.environ.keys():
     # 表示在 OpenSfhit 執行
